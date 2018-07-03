@@ -22,6 +22,7 @@ Notes :
 
 - Due to the manual import and joint positionning it's not accurate for the moment.
 - The masses and inertial matrices are not correct
+- The ball screw mecanism has not been implemented as a simplification instead we control the joint angle.
 - The model currently work with self_collisions, but if I had the rings of the body it is self colliding when it shouldn't, probably some pybullet optimization to the convex hull make it self collide
 - The mirrored version of the leg have been done manually.
 
