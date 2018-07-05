@@ -34,6 +34,13 @@ Run :
 - Random agent on "openai Gym" environment : RunGymEnv.py
 - Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the task in ~15 minutes).
 
+What remains to be done :
+
+- More custom environments and objectives
+- Parallelism
+- PPO
+- Do the training and real world testing :)
+
 License :
 
 - Code is MIT
@@ -45,7 +52,8 @@ Notes :
 - The masses and inertial matrices are not correct
 - The ball screw mecanism has not been implemented as a simplification instead we control the joint angle.
 - The model currently work with self_collisions, but if I had the rings of the body it is self colliding when it shouldn't, probably some pybullet optimization to the convex hull make it self collide
-- The mirrored version of the leg have been done manually.
+- Self collision between two connected links will be constrained by using "revolute" joints instead of "continuous" one with proper angle limit
+- The mirrored version of the leg have been done manually and is not faithful to the original cad which is not mirrored
 
 
 How to manually create a new URDF for updated versions : 
