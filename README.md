@@ -35,7 +35,7 @@ Run :
 - Random agent on "openai Gym" environment : RunGymEnv.py
 - Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the task in ~15 minutes).
 
-What remains to be done :
+What remains to be done (still plenty):
 
 - More custom environments and objectives
 - Parallelism
