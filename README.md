@@ -8,10 +8,31 @@ Flying openDog video :
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ocgPrY2Uf6A/0.jpg)](https://www.youtube.com/watch?v=ocgPrY2Uf6A)
 
+The goals of the project :
+- Teach opendog various task from high level objectives
+- We will try to simulate to see if it'll be able to get up on his own.
+- Hopefully we will be able to learn some controller for smooth movement.
+- See what sensors are really needed.
+- See what computing power we really need.
+
+The general architecture will be pretty classic in the line of http://blog.otoro.net/2017/11/12/evolving-stable-strategies/
+-develop custom gym environment
+-develop custom policy model then solve it using either a variant of Evolution Strategies (currently implemented as it is easier), or PPO
+-Randomize various constants (like gravity, inertia matrices,...,time jitter) to make it robust so we can transfer it to the real world robot.
+
+For the reinforcement learning, currently using es code a little modified from https://github.com/hardmaru/estool/ 
+
 Install :
 
 - You'll need pybullet
 - Then you can play and try make the robot walk.
+- For reinforcement learning you will need openai gym, tensorflow and pycma
+
+Run :
+
+- The low gravity video : bulletSim.py
+- Random agent on "openai Gym" environment : RunGymEnv.py
+- Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the task in ~15 minutes).
 
 License :
 
