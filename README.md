@@ -15,7 +15,8 @@ The goals of the project :
 - See what sensors are really needed.
 - See what computing power we really need.
 
-The general architecture will be pretty classic in the line of http://blog.otoro.net/2017/11/12/evolving-stable-strategies/
+The general architecture will be pretty classic in the line of http://blog.otoro.net/2017/11/12/evolving-stable-strategies/ :
+
 -develop custom gym environment
 -develop custom policy model then solve it using either a variant of Evolution Strategies (currently implemented as it is easier), or PPO
 -Randomize various constants (like gravity, inertia matrices,...,time jitter) to make it robust so we can transfer it to the real world robot.
