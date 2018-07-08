@@ -25,9 +25,9 @@ For the reinforcement learning, currently using es code a little modified from h
 
 Install :
 
-- You'll need pybullet
+- You'll need pybullet and numpy
 - Then you can play and try make the robot walk.
-- For reinforcement learning you will need openai gym, tensorflow and pycma
+- For reinforcement learning you will need openai gym, tensorflow and pycma (for ES), tensorforce (for PPO)
 
 Run :
 
