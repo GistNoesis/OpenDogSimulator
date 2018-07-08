@@ -1,5 +1,31 @@
 <robot name="test_robot">
+   <link name="corps">
+    <contact>
+      <lateral_friction value="1"/>
+    </contact>
+    <visual>
+      <geometry>
+        <mesh filename="body.stl" scale="0.01 0.01 0.01"/>
+      </geometry>  
+      <material name="violet">
+        <color rgba="1 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="body.stl" scale="0.01 0.01 0.01"/>
+      </geometry>  
+    </collision>
+    <inertial>
+    	<mass value="10"/>
+       <inertia ixx="1e-3" ixy="0.0" ixz="0.0" iyy="1e-3" iyz="0.0" izz="1e-3"/>
+    </inertial>
+  </link>
+
   <link name="tibia1">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="1.5 0.5 0.5" rpy="0 0 0" />
       <geometry>
@@ -22,6 +48,9 @@
   </link>
 
   <link name="cuisse1">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
        <origin xyz="0 -0.3 -3.0" rpy="0 0 0" />
       <geometry>
@@ -45,6 +74,9 @@
   </link>
 
   <link name="hanche1">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="0 -0.6 -2.8" rpy="0 0 0" />
       <geometry>
@@ -67,6 +99,9 @@
   </link>
 
   <link name="tibia2">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="1.5 0.5 0.5" rpy="0 0 0" />
       <geometry>
@@ -89,6 +124,9 @@
   </link>
 
   <link name="cuisse2">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
        <origin xyz="0 -0.3 -3.0" rpy="0 0 0" />
       <geometry>
@@ -112,6 +150,9 @@
   </link>
 
   <link name="hanche2">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="0 -0.6 -2.8" rpy="0 0 0" />
       <geometry>
@@ -134,6 +175,9 @@
   </link>
 
   <link name="tibia3">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="1.5 0.5 0.5" rpy="0 0 0" />
       <geometry>
@@ -156,6 +200,9 @@
   </link>
 
   <link name="cuisse3">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
        <origin xyz="0 -0.3 -3.0" rpy="0 0 0" />
       <geometry>
@@ -179,6 +226,9 @@
   </link>
 
   <link name="hanche3">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="0 -0.6 -2.8" rpy="0 0 0" />
       <geometry>
@@ -201,6 +251,9 @@
   </link>
 
  <link name="tibia4">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="1.5 0.5 0.5" rpy="0 0 0" />
       <geometry>
@@ -223,6 +276,9 @@
   </link>
 
   <link name="cuisse4">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
        <origin xyz="0 -0.3 -3.0" rpy="0 0 0" />
       <geometry>
@@ -246,6 +302,9 @@
   </link>
 
   <link name="hanche4">
+    <contact>
+      <lateral_friction value="1"/>
+  </contact>
     <visual>
       <origin xyz="0 -0.6 -2.8" rpy="0 0 0" />
       <geometry>
@@ -267,114 +326,108 @@
     </inertial>
   </link>
 
-  <link name="corps">
-    <visual>
-      <geometry>
-        <mesh filename="body.stl" scale="0.01 0.01 0.01"/>
-      </geometry>  
-      <material name="violet">
-        <color rgba="1 0 1 1"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="body.stl" scale="0.01 0.01 0.01"/>
-      </geometry>  
-    </collision>
-    <inertial>
-    	<mass value="10"/>
-       <inertia ixx="1e-3" ixy="0.0" ixz="0.0" iyy="1e-3" iyz="0.0" izz="1e-3"/>
-    </inertial>
-  </link>
+
 
  
 
 
-<joint name="joint1" type="continuous">
+<joint name="joint1" type="revolute">
     <parent link="cuisse1"/>
     <child link="tibia1"/>
     <origin xyz="-2.1 -1.0 -3.6" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint2" type="continuous">
+  <joint name="joint2" type="revolute">
     <parent link="hanche1"/>
     <child link="cuisse1"/>
     <origin xyz="-0.6 0 0.2" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint3" type="continuous">
+  <joint name="joint3" type="revolute">
     <parent link="corps"/>
     <child link="hanche1"/>
     <origin xyz="0 0.6 2.8" rpy="0 0 0" />
     <axis xyz="1 0 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
 
-<joint name="joint4" type="continuous">
+<joint name="joint4" type="revolute">
     <parent link="cuisse2"/>
     <child link="tibia2"/>
     <origin xyz="-2.1 -1.0 -3.6" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint5" type="continuous">
+  <joint name="joint5" type="revolute">
     <parent link="hanche2"/>
     <child link="cuisse2"/>
     <origin xyz="-0.6 0 0.2" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint6" type="continuous">
+  <joint name="joint6" type="revolute">
     <parent link="corps"/>
     <child link="hanche2"/>
     <origin xyz="5.0 0.6 2.8" rpy="0 0 0" />
     <axis xyz="1 0 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
 
-<joint name="joint7" type="continuous">
+<joint name="joint7" type="revolute">
     <parent link="cuisse3"/>
     <child link="tibia3"/>
     <origin xyz="-2.1 -1.0 -3.6" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint8" type="continuous">
+  <joint name="joint8" type="revolute">
     <parent link="hanche3"/>
     <child link="cuisse3"/>
     <origin xyz="-0.6 1.3 0.2" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint9" type="continuous">
+  <joint name="joint9" type="revolute">
     <parent link="corps"/>
     <child link="hanche3"/>
     <origin xyz="5.0 2.8 2.8" rpy="0 0 0" />
     <axis xyz="1 0 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
 
-<joint name="joint10" type="continuous">
+<joint name="joint10" type="revolute">
     <parent link="cuisse4"/>
     <child link="tibia4"/>
     <origin xyz="-2.1 -1.0 -3.6" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint11" type="continuous">
+  <joint name="joint11" type="revolute">
     <parent link="hanche4"/>
     <child link="cuisse4"/>
     <origin xyz="-0.6 1.3 0.2" rpy="0 0 0" />
     <axis xyz="0 1 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
-  <joint name="joint12" type="continuous">
+  <joint name="joint12" type="revolute">
     <parent link="corps"/>
     <child link="hanche4"/>
     <origin xyz="0.0 2.8 2.8" rpy="0 0 0" />
     <axis xyz="1 0 0" />
+    <limit effort="300" lower="-1.0" upper="1.0" velocity="12"/>
   </joint>
 
 

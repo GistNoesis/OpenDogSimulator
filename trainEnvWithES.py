@@ -1,20 +1,27 @@
 import gym
 import numpy as np
 from EnvOpenDogStand import EnvOpenDogStand
+from EnvOpenDogForward import EnvOpenDogForward
 import time
 from es import CMAES
 import tensorflow as tf
 import gc
+import pickle
 
-env = EnvOpenDogStand(renders=False)
+#env = EnvOpenDogStand(renders=False)
+render = False
+env = EnvOpenDogForward(renders=render)
+ENV_NAME = "Forward"
+
 env.seed(0)
 
-episode_count = 100
+
 reward = 0
 done = False
 
-
-
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 class StandActor:
     def __init__(self):
@@ -63,7 +70,13 @@ class StandActor:
 agent = StandActor()
 
 nbParams = agent.getNumberOfParams()
-x0 = agent.getParameterValue()
+
+try :
+    x0=pickle.load(open("params"+ENV_NAME+".p", "rb"))
+except:
+    print("no saved parameter found - starting from initialization")
+    x0 = agent.getParameterValue()
+
 solver = CMAES(x0)
 
 #agent.loadParams( np.zeros( nbParams ) )
@@ -77,14 +90,31 @@ def evaluate( sol ):
         ob, reward, done, _ = env.step(action)
         #time.sleep(0.01)
         if done:
-            print("episode done")
-            print(reward)
+            #print("episode done")
+            #print(reward)
             gc.collect()
             # Only return last reward
             return reward
 
-MY_REQUIRED_REWARD = -0.1
+MY_REQUIRED_REWARD = 300.0
 
+
+if render:
+    agent.loadParams(x0)
+    ob = env.reset()
+    while True:
+        action = agent.act(ob)
+        ob, reward, done, _ = env.step(action)
+        time.sleep(0.1)
+        if done:
+            # print("episode done")
+            # print(reward)
+            gc.collect()
+            # Only return last reward
+            break
+    input()
+
+ep = 0
 while True:
   # ask the ES to give us a set of candidate solutions
   solutions = solver.ask()
@@ -96,7 +126,7 @@ while True:
   # calculate the reward for each given solution
   # using your own evaluate() method
   for i in range(solver.popsize):
-    print("candidate " + str(i))
+    #print("candidate " + str(i))
     rewards[i] = evaluate(solutions[i])
 
   # give rewards back to ES
@@ -104,9 +134,11 @@ while True:
 
   # get best parameter, reward from ES
   reward_vector = solver.result()
+  print("Episode " + str(ep))
   print("current Best : ")
   print(reward_vector[1] )
-
+  pickle.dump(reward_vector[0], open("params"+ENV_NAME+".p", "wb"))
+  ep = ep+1
   if reward_vector[1] > MY_REQUIRED_REWARD :
     break
 
