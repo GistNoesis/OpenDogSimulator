@@ -34,7 +34,7 @@ Run :
 - The low gravity video : bulletSim.py
 - Random agent on "openai Gym" environment : RunGymEnv.py
 - Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the stand task in ~15 minutes and show good will for the forward task) (Edit the file to show/hide the GUI, and enable CPU/GPU) Progress is saved, so you can run it fast without the GUI, then run with the GUI to see the result
-- Training with PPO using : trainEnvWithPPO.py (Edit the file to show/hide the GUI, and enable CPU/GPU) Code currently running and showing some good will.
+- Training with PPO using : trainEnvWithPPO.py (Edit the file to show/hide the GUI, and enable CPU/GPU) Code currently running and showing some good will. (If you get hit by this tensorforce issue : https://github.com/reinforceio/tensorforce/issues/391 then use CPU instead of GPU)
 
 Environment : 
 - EnvOpenDogStand : Reward at the end only, fully deterministic, goal is to reach a specific base altitude after 3 second.
