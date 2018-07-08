@@ -10,7 +10,7 @@ import pickle
 from tensorforce.agents import PPOAgent
 
 
-render = False
+render = True
 env = EnvOpenDogForward(renders=render)
 ENV_NAME = "ForwardPPO"
 
@@ -31,31 +31,36 @@ class ForwardActor:
         for i in range(12):
             actions[str(i)] = {'type': 'float'}# 'num_actions': 10
 
+        network_spec = [
+            dict(type='dense', size=100, activation='relu'),
+            dict(type='dense', size=100, activation='relu')
+        ]
+
         self.agent = PPOAgent(
-            states=dict(type='float', shape=(24,)),
+            states=dict(type='float', shape=(12,)),
             actions=actions,
-            network=[
-                dict(type='dense', size=64),
-                dict(type='dense', size=64)
-            ],
-            batching_capacity=1000,
+            batching_capacity=2000,
+            network=network_spec,
             step_optimizer=dict(
                 type='adam',
-                learning_rate=1e-4
-            )
+                learning_rate=1e-3
+            ),
         )
 
 
     def act(self, state):
-        jp = np.expand_dims( np.array(state["JointPosition"]),axis=0)
+        jp = np.expand_dims( np.nan_to_num( np.array(state["JointPosition"] ) ),axis=0)
         jv = np.expand_dims(np.array(state["JointVelocity"]), axis=0)
 
-        actiondict = self.agent.act( np.concatenate([jp,jv],axis=1))
+        #actiondict = self.agent.act( np.concatenate([jp,jv],axis=1))
+        actiondict = self.agent.act(jp)
 
         action = np.zeros(12)
         for i in range(12):
             action[i] = actiondict[str(i)][0]
-        return 0.3*action
+        action = np.nan_to_num(action)
+        print(action)
+        return np.clip( 0.3*action,-1.0,1.0)
 
     def observe(self, reward, terminal):
         self.agent.observe(reward=reward,terminal=terminal)
