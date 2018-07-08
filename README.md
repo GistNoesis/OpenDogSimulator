@@ -33,13 +33,17 @@ Run :
 
 - The low gravity video : bulletSim.py
 - Random agent on "openai Gym" environment : RunGymEnv.py
-- Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the task in ~15 minutes).
+- Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the stand task in ~15 minutes and show good will for the forward task) (Edit the file to show/hide the GUI, and enable CPU/GPU) Progress is saved, so you can run it fast without the GUI, then run with the GUI to see the result
+- Training with PPO using : trainEnvWithPPO.py (Edit the file to show/hide the GUI, and enable CPU/GPU) Code currently running and showing progress at the start then some NANs
+
+Environment : 
+- EnvOpenDogStand : Reward at the end only, fully deterministic, goal is to reach a specific base altitude after 3 second.
+- EnvOpenDogForward : Reward at the end only, fully deterministic, goal is to reach the further in the x direction, simulation is stopped if base is inclined too much, or base altitude go too low.
 
 What remains to be done (still plenty):
 
 - More custom environments and objectives
 - Parallelism
-- PPO
 - Do the training and real world testing :)
 
 License :
