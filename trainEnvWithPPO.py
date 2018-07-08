@@ -10,7 +10,7 @@ import pickle
 from tensorforce.agents import PPOAgent
 
 
-render = True
+render = False
 env = EnvOpenDogForward(renders=render)
 ENV_NAME = "ForwardPPO"
 
@@ -43,7 +43,7 @@ class ForwardActor:
             network=network_spec,
             step_optimizer=dict(
                 type='adam',
-                learning_rate=1e-3
+                learning_rate=1e-4
             ),
         )
 
@@ -59,7 +59,7 @@ class ForwardActor:
         for i in range(12):
             action[i] = actiondict[str(i)][0]
         action = np.nan_to_num(action)
-        print(action)
+        #print(action)
         return np.clip( 0.3*action,-1.0,1.0)
 
     def observe(self, reward, terminal):
