@@ -8,6 +8,10 @@ Flying openDog video :
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ocgPrY2Uf6A/0.jpg)](https://www.youtube.com/watch?v=ocgPrY2Uf6A)
 
+OpenDog first steps using PPO :
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/7W0jh5ahT-E/0.jpg)](https://www.youtube.com/watch?v=7W0jh5ahT-E)
+
+
 The goals of the project :
 - Teach opendog various task from high level objectives
 - We will try to simulate to see if it'll be able to get up on his own.
@@ -34,11 +38,12 @@ Run :
 - The low gravity video : bulletSim.py
 - Random agent on "openai Gym" environment : RunGymEnv.py
 - Training with CMA-ES the "openai Gym" environment whose goal is to have the center of mass of the body at a specific height after 3s : trainEnvWithES.py (Currently running on a single core and solving the stand task in ~15 minutes and show good will for the forward task) (Edit the file to show/hide the GUI, and enable CPU/GPU) Progress is saved, so you can run it fast without the GUI, then run with the GUI to see the result
-- Training with PPO using : trainEnvWithPPO.py (Edit the file to show/hide the GUI, and enable CPU/GPU) Code currently running and showing some good will. (If you get hit by this tensorforce issue : https://github.com/reinforceio/tensorforce/issues/391 then use CPU instead of GPU)
+- Training with PPO using : trainEnvWithPPO.py (Edit the file to show/hide the GUI, and enable CPU/GPU) Code currently running and showing some good will. (If you get hit by this tensorforce issue : https://github.com/reinforceio/tensorforce/issues/391 then use CPU instead of GPU). If it numerically diverge when run for a long time, you probably need to add weight decay (can't find the corresponding documentation in tensorforce), or scale down the inputs, or schedule reduce the optimizer step size.
 
 Environment : 
 - EnvOpenDogStand : Reward at the end only, fully deterministic, goal is to reach a specific base altitude after 3 second.
-- EnvOpenDogForward : Reward at the end only, fully deterministic, goal is to reach the further in the x direction, simulation is stopped if base is inclined too much, or base altitude go too low.
+- EnvOpenDogForward : Reward at the end only, fully deterministic, goal is to reach the further in the x direction, simulation is stopped if base is inclined too much, or base altitude go too low. (Hard to learn without Hindsight Experience Replay). Continuous action to control the relative joint position (which make it a lot harder to run :) ) 
+- EnvOpenDogForwardSimple : Reward at each timestep based on the x axis forward distance during the step. Simulation is stopped if base is inclined too much, or base altitude go too low. Continuous actions control the absolute joint position directly.
 
 What remains to be done (still plenty):
 
