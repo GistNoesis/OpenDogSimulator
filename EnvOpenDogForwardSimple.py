@@ -21,7 +21,7 @@ from pkg_resources import parse_version
 
 logger = logging.getLogger(__name__)
 
-class EnvOpenDogForward(gym.Env):
+class EnvOpenDogForwardSimple(gym.Env):
   metadata = {
     'render.modes': ['human', 'rgb_array'],
     'video.frames_per_second' : 50
@@ -40,10 +40,10 @@ class EnvOpenDogForward(gym.Env):
           np.finfo(np.float32).max,
           np.finfo(np.float32).max,
           np.finfo(np.float32).max])
-    action_high = np.array([0.1])
+    #action_high = np.array([0.1])
 
-    self.action_space = spaces.Discrete(9)
-    self.observation_space = spaces.Box(-observation_high, observation_high)
+    #self.action_space = spaces.Discrete(9)
+    #self.observation_space = spaces.Box(-observation_high, observation_high)
 
     self.theta_threshold_radians = 1
     self.x_threshold = 2.4
@@ -64,9 +64,11 @@ class EnvOpenDogForward(gym.Env):
       bodyState = p.getLinkState(self.dog, 0)
       bodypos = bodyState[0]
       bodyquat = bodyState[1]
-
+      pos, rot = p.getBasePositionAndOrientation(self.dog)
+      rotmat = p.getMatrixFromQuaternion(rot)
       self.state = {"JointPosition": [ p.getJointState(self.dog, i)[0] for i in range(self.numJoints)],
                     "JointVelocity":  [p.getJointState(self.dog, i)[1] for i in range(self.numJoints)],
+                    "bodyRot" : rotmat,
                     "bodyPos": bodypos,
                     "bodyquat": bodyquat}
 
@@ -84,13 +86,15 @@ class EnvOpenDogForward(gym.Env):
     #print( bodypos[0] )
     #There are multiple possible choice of motor control, for the moment we settle on relative continuous position control
     #We chose this because it explores less so it should be faster to learn provided that we stay close to a path to the solution
+    #jp[i]+
     for i in range(self.numJoints):
-        p.setJointMotorControl2(self.dog, i, p.POSITION_CONTROL, targetPosition=jp[i]+action[i], force=500)
+        p.setJointMotorControl2(self.dog, i, p.POSITION_CONTROL, targetPosition=action[i], force=500)
         #p.setJointMotorControl2(self.dog, i, p.VELOCITY_CONTROL, targetVelocity=jv[i]+deltav, force=500)
 
     hasFallen = self.state["bodyPos"][2] < 3.0
     #print( self.state["bodyPos"][2])
     pos, rot = p.getBasePositionAndOrientation(self.dog)
+
     rotmat = p.getMatrixFromQuaternion(rot)
     upv = np.array([rotmat[2],rotmat[5],rotmat[8] ]) #or the transpose : p.getMatrixFromQuaternion(rot)[6:9]
     hasFallenOrient = False
@@ -102,13 +106,13 @@ class EnvOpenDogForward(gym.Env):
 
 
     done =  self.currentSimTime > 100.0 or hasFallen or hasFallenOrient or np.isnan(bodyx)
-    if done and np.isnan(bodyx)==False :
-        reward = bodyx
-        #print("episode lasted " + str(self.currentSimTime))
-        #print("reward : " + str(reward))
-    else:
-        reward = 0.0
 
+    reward = np.nan_to_num(pos[0]-self.previousPos[0])
+
+    if hasFallen or hasFallenOrient:
+        reward = reward - 5.0
+
+    self.previousPos = pos
     return self.state, reward, done, {}
 
   def _reset(self):
@@ -123,6 +127,8 @@ class EnvOpenDogForward(gym.Env):
     p.setGravity(0,0, -10)
     p.setTimeStep(self.timeStep)
     p.setRealTimeSimulation(0)
+    pos, rot = p.getBasePositionAndOrientation(self.dog)
+    self.previousPos = pos
     #initialCartPos = self.np_random.uniform(low=-0.5, high=0.5, size=(1,))
     #initialAngle = self.np_random.uniform(low=-0.5, high=0.5, size=(1,))
     #p.resetJointState(self.cartpole, 1, initialAngle)
