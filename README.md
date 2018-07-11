@@ -9,6 +9,7 @@ Flying openDog video :
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ocgPrY2Uf6A/0.jpg)](https://www.youtube.com/watch?v=ocgPrY2Uf6A)
 
 OpenDog first steps using PPO :
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/7W0jh5ahT-E/0.jpg)](https://www.youtube.com/watch?v=7W0jh5ahT-E)
 
 
