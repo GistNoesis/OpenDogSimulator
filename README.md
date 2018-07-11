@@ -44,7 +44,7 @@ Run :
 Environment : 
 - EnvOpenDogStand : Reward at the end only, fully deterministic, goal is to reach a specific base altitude after 3 second.
 - EnvOpenDogForward : Reward at the end only, fully deterministic, goal is to reach the further in the x direction, simulation is stopped if base is inclined too much, or base altitude go too low. (Hard to learn without Hindsight Experience Replay). Continuous action to control the relative joint position (which make it a lot harder to run :) ) 
-- EnvOpenDogForwardSimple : Reward at each timestep based on the x axis forward distance during the step. Simulation is stopped if base is inclined too much, or base altitude go too low. Continuous actions control the absolute joint position directly.
+- EnvOpenDogForwardSimple : Reward at each timestep based on the x axis forward distance during the step. Simulation is stopped if base is inclined too much, or base altitude go too low. Continuous actions control the absolute joint position directly. Joint positions (and joint velocities) and Orientation of the base are inputs. 
 
 What remains to be done (still plenty):
 
